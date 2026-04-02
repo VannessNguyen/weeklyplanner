@@ -1,0 +1,1898 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly Planner</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #2dc653;
+    --green-dark: #1a9e3f;
+    --green-light: #e8f9ed;
+    --blue: #3b82f6;
+    --purple: #a855f7;
+    --orange: #f97316;
+    --pink: #ec4899;
+    --yellow: #eab308;
+    --teal: #14b8a6;
+    --red: #ef4444;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-600: #4b5563;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+    --shadow: 0 4px 20px rgba(0,0,0,0.08);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    background: #f0f4f8;
+    min-height: 100vh;
+    color: var(--gray-800);
+  }
+
+  /* HEADER */
+  .header {
+    background: white;
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .logo-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    background: #f47920;
+    border-radius: 50%;
+    margin-left: 1px;
+    vertical-align: super;
+  }
+
+  .logo-text-wrap {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+  }
+
+  .logo-peki {
+    font-family: 'Lexend', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    color: #222;
+    letter-spacing: -1px;
+  }
+
+  .logo-tagline {
+    font-size: 10px;
+    color: #999;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    margin-top: 3px;
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .btn {
+    padding: 8px 18px;
+    border-radius: 10px;
+    border: none;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-primary {
+    background: var(--green);
+    color: white;
+  }
+  .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
+
+  .btn-outline {
+    background: transparent;
+    border: 2px solid var(--green);
+    color: var(--green);
+  }
+  .btn-outline:hover { background: var(--green-light); }
+
+  /* MAIN LAYOUT */
+  .main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 24px 20px;
+    display: grid;
+    gap: 20px;
+  }
+
+  /* TOP ROW */
+  .top-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+
+  /* CARD */
+  .card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+  }
+
+  .card-title {
+    font-family: 'Lexend', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--gray-600);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card-title::before {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 16px;
+    background: var(--green);
+    border-radius: 2px;
+  }
+
+  /* INFO CARD */
+  .info-card {
+    background: linear-gradient(135deg, #1a9e3f 0%, #2dc653 100%);
+    color: white;
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    box-shadow: 0 8px 24px rgba(45,198,83,0.3);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .info-card::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 140px; height: 140px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 50%;
+  }
+
+  .info-card::after {
+    content: '';
+    position: absolute;
+    bottom: -30px; left: -20px;
+    width: 100px; height: 100px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 50%;
+  }
+
+  .planner-title {
+    font-family: 'Lexend', sans-serif;
+    font-weight: 800;
+    font-size: 32px;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .planner-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .meta-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.75;
+  }
+
+  .meta-value {
+    font-size: 15px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .meta-row {
+    background: rgba(255,255,255,0.15);
+    border-radius: 10px;
+    padding: 10px 14px;
+    backdrop-filter: blur(4px);
+  }
+
+  /* PROGRESS CHART */
+  .chart-card { }
+
+  .chart-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .legend {
+    display: flex;
+    gap: 16px;
+    font-size: 12px;
+    color: var(--gray-600);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+  }
+
+  .chart-area {
+    display: flex;
+    align-items: flex-end;
+    gap: 0;
+    height: 140px;
+    padding: 0 8px;
+  }
+
+  .chart-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    height: 100%;
+    justify-content: flex-end;
+  }
+
+  .bar-group {
+    display: flex;
+    gap: 3px;
+    align-items: flex-end;
+    width: 100%;
+    justify-content: center;
+    flex: 1;
+  }
+
+  .bar {
+    width: 12px;
+    border-radius: 4px 4px 0 0;
+    transition: all 0.4s ease;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .bar:hover { opacity: 0.8; }
+
+  .bar-incomplete { background: var(--gray-200); }
+  .bar-complete { background: var(--green); }
+
+  .bar-label {
+    font-size: 11px;
+    color: var(--gray-600);
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .total-display {
+    text-align: center;
+    padding: 12px;
+    background: var(--green-light);
+    border-radius: 12px;
+    margin-top: 12px;
+  }
+
+  .total-pct {
+    font-family: 'Lexend', sans-serif;
+    font-weight: 800;
+    font-size: 28px;
+    color: var(--green);
+  }
+
+  .total-sub {
+    font-size: 11px;
+    color: var(--gray-600);
+    margin-top: 2px;
+  }
+
+  /* HABITS TABLE */
+  .habits-card { }
+
+  .habits-grid {
+    overflow-x: auto;
+  }
+
+  .habits-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+
+  .habits-table th {
+    padding: 6px 8px;
+    text-align: center;
+    font-weight: 700;
+    color: white;
+    background: var(--green);
+    font-size: 11px;
+    letter-spacing: 0.5px;
+  }
+
+  .habits-table th:first-child {
+    text-align: left;
+    border-radius: 8px 0 0 0;
+    min-width: 140px;
+  }
+
+  .habits-table th:last-child { border-radius: 0 8px 0 0; }
+
+  .habits-table td {
+    padding: 7px 8px;
+    border-bottom: 1px solid var(--gray-100);
+    text-align: center;
+  }
+
+  .habits-table td:first-child {
+    text-align: left;
+    font-weight: 500;
+    color: var(--gray-700);
+    font-size: 12px;
+  }
+
+  .habits-table tr:hover td { background: var(--gray-50); }
+
+  .habit-check {
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+    border: 2px solid var(--gray-300);
+    cursor: pointer;
+    appearance: none;
+    transition: all 0.15s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+  }
+
+  .habit-check:checked {
+    background: var(--green);
+    border-color: var(--green);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 10 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 4l3 3 5-6' stroke='white' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 10px;
+  }
+
+  .habit-pct-bar {
+    height: 6px;
+    background: var(--gray-200);
+    border-radius: 3px;
+    overflow: hidden;
+    width: 60px;
+    margin: 0 auto;
+  }
+
+  .habit-pct-fill {
+    height: 100%;
+    background: var(--green);
+    border-radius: 3px;
+    transition: width 0.4s;
+  }
+
+  .habit-pct-text {
+    font-size: 11px;
+    color: var(--green-dark);
+    font-weight: 700;
+    text-align: right;
+  }
+
+  /* ADD HABIT */
+  .add-habit-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .add-habit-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 2px solid var(--gray-200);
+    border-radius: 8px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 12px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .add-habit-input:focus { border-color: var(--green); }
+
+  .btn-add-habit {
+    padding: 8px 14px;
+    background: var(--green);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14px;
+    transition: background 0.2s;
+  }
+
+  .btn-add-habit:hover { background: var(--green-dark); }
+
+  /* DAYS GRID */
+  .days-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 12px;
+  }
+
+  .day-card {
+    background: white;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    min-height: 340px;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+
+  .day-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+  }
+
+  .day-header {
+    padding: 12px 14px 8px;
+    text-align: center;
+    position: relative;
+  }
+
+  .day-name {
+    font-family: 'Lexend', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.3px;
+  }
+
+  .day-date {
+    font-size: 11px;
+    opacity: 0.7;
+    margin-top: 2px;
+  }
+
+  /* Circular progress */
+  .day-progress-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 14px 0 8px;
+  }
+
+  .circular-progress {
+    position: relative;
+    width: 72px;
+    height: 72px;
+  }
+
+  .circular-progress svg {
+    transform: rotate(-90deg);
+  }
+
+  .circular-progress .bg-circle {
+    fill: none;
+    stroke: var(--gray-100);
+    stroke-width: 7;
+  }
+
+  .circular-progress .fill-circle {
+    fill: none;
+    stroke-width: 7;
+    stroke-linecap: round;
+    stroke-dasharray: 175.93;
+    transition: stroke-dashoffset 0.6s ease;
+  }
+
+  .circular-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Lexend', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .day-progress-label {
+    text-align: center;
+    font-size: 10px;
+    color: var(--gray-600);
+    margin-bottom: 10px;
+  }
+
+  /* TASK LIST */
+  .task-list-header {
+    padding: 8px 14px;
+    font-family: 'Lexend', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    background: var(--gray-50);
+    color: var(--gray-600);
+  }
+
+  .task-list {
+    flex: 1;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .task-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 6px;
+    border-radius: 6px;
+    transition: background 0.15s;
+    cursor: pointer;
+  }
+
+  .task-item:hover { background: var(--gray-50); }
+
+  .task-check {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    border-radius: 4px;
+    border: 2px solid var(--gray-300);
+    cursor: pointer;
+    appearance: none;
+    transition: all 0.15s;
+    background: white;
+  }
+
+  .task-check:checked {
+    border-color: currentColor;
+    background-color: currentColor;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 10 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 4l3 3 5-6' stroke='white' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 9px;
+  }
+
+  .task-text {
+    font-size: 11px;
+    color: var(--gray-700);
+    flex: 1;
+    line-height: 1.3;
+    transition: all 0.2s;
+  }
+
+  .task-item.done .task-text {
+    text-decoration: line-through;
+    color: var(--gray-300);
+  }
+
+  .task-delete {
+    opacity: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--red);
+    font-size: 14px;
+    line-height: 1;
+    padding: 0 2px;
+    border-radius: 3px;
+    transition: opacity 0.15s;
+  }
+
+  .task-item:hover .task-delete { opacity: 1; }
+
+  .add-task-row {
+    padding: 6px 8px;
+    display: flex;
+    gap: 4px;
+    border-top: 1px solid var(--gray-100);
+  }
+
+  .add-task-input {
+    flex: 1;
+    padding: 5px 8px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: 6px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 11px;
+    outline: none;
+    transition: border-color 0.2s;
+    background: var(--gray-50);
+  }
+
+  .add-task-input:focus {
+    border-color: var(--green);
+    background: white;
+  }
+
+  .btn-add-task {
+    padding: 5px 8px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 13px;
+    transition: all 0.15s;
+    color: white;
+  }
+
+  /* DAY COLORS */
+  .day-0 .day-header { background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%); color: white; }
+  .day-0 .task-check:checked { border-color: #3b82f6; background-color: #3b82f6; }
+  .day-0 .fill-circle { stroke: #3b82f6; }
+  .day-0 .circular-text { color: #3b82f6; }
+  .day-0 .task-list-header { color: #3b82f6; }
+  .day-0 .btn-add-task { background: #3b82f6; }
+  .day-0 .btn-add-task:hover { background: #2563eb; }
+
+  .day-1 .day-header { background: linear-gradient(135deg, #2dc653 0%, #4ade80 100%); color: white; }
+  .day-1 .task-check:checked { border-color: #2dc653; background-color: #2dc653; }
+  .day-1 .fill-circle { stroke: #2dc653; }
+  .day-1 .circular-text { color: #2dc653; }
+  .day-1 .task-list-header { color: #2dc653; }
+  .day-1 .btn-add-task { background: #2dc653; }
+  .day-1 .btn-add-task:hover { background: #1a9e3f; }
+
+  .day-2 .day-header { background: linear-gradient(135deg, #a855f7 0%, #c084fc 100%); color: white; }
+  .day-2 .task-check:checked { border-color: #a855f7; background-color: #a855f7; }
+  .day-2 .fill-circle { stroke: #a855f7; }
+  .day-2 .circular-text { color: #a855f7; }
+  .day-2 .task-list-header { color: #a855f7; }
+  .day-2 .btn-add-task { background: #a855f7; }
+  .day-2 .btn-add-task:hover { background: #9333ea; }
+
+  .day-3 .day-header { background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%); color: white; }
+  .day-3 .task-check:checked { border-color: #3b82f6; background-color: #3b82f6; }
+  .day-3 .fill-circle { stroke: #3b82f6; }
+  .day-3 .circular-text { color: #3b82f6; }
+  .day-3 .task-list-header { color: #3b82f6; }
+  .day-3 .btn-add-task { background: #3b82f6; }
+  .day-3 .btn-add-task:hover { background: #2563eb; }
+
+  .day-4 .day-header { background: linear-gradient(135deg, #eab308 0%, #facc15 100%); color: white; }
+  .day-4 .task-check:checked { border-color: #eab308; background-color: #eab308; }
+  .day-4 .fill-circle { stroke: #eab308; }
+  .day-4 .circular-text { color: #eab308; }
+  .day-4 .task-list-header { color: #d97706; }
+  .day-4 .btn-add-task { background: #eab308; }
+  .day-4 .btn-add-task:hover { background: #ca8a04; }
+
+  .day-5 .day-header { background: linear-gradient(135deg, #f97316 0%, #fb923c 100%); color: white; }
+  .day-5 .task-check:checked { border-color: #f97316; background-color: #f97316; }
+  .day-5 .fill-circle { stroke: #f97316; }
+  .day-5 .circular-text { color: #f97316; }
+  .day-5 .task-list-header { color: #f97316; }
+  .day-5 .btn-add-task { background: #f97316; }
+  .day-5 .btn-add-task:hover { background: #ea580c; }
+
+  .day-6 .day-header { background: linear-gradient(135deg, #ec4899 0%, #f472b6 100%); color: white; }
+  .day-6 .task-check:checked { border-color: #ec4899; background-color: #ec4899; }
+  .day-6 .fill-circle { stroke: #ec4899; }
+  .day-6 .circular-text { color: #ec4899; }
+  .day-6 .task-list-header { color: #ec4899; }
+  .day-6 .btn-add-task { background: #ec4899; }
+  .day-6 .btn-add-task:hover { background: #db2777; }
+
+  /* WEEK SELECTOR */
+  .week-nav {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: white;
+    border-radius: var(--radius);
+    padding: 14px 20px;
+    box-shadow: var(--shadow);
+    justify-content: center;
+  }
+
+  .week-nav-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: 2px solid var(--gray-200);
+    background: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: all 0.15s;
+    color: var(--gray-700);
+  }
+
+  .week-nav-btn:hover {
+    border-color: var(--green);
+    color: var(--green);
+    background: var(--green-light);
+  }
+
+  .week-label {
+    font-family: 'Lexend', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--gray-800);
+    min-width: 220px;
+    text-align: center;
+  }
+
+  .today-btn {
+    padding: 7px 16px;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border: 2px solid var(--green);
+    border-radius: 8px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .today-btn:hover { background: var(--green); color: white; }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--gray-800);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: var(--shadow-lg);
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all 0.3s;
+    z-index: 999;
+  }
+
+  .toast.show {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* Modal */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    backdrop-filter: blur(4px);
+  }
+
+  .modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .modal {
+    background: white;
+    border-radius: 20px;
+    padding: 28px;
+    width: 400px;
+    max-width: 90vw;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    transform: scale(0.95) translateY(10px);
+    transition: transform 0.2s;
+  }
+
+  .modal-overlay.open .modal { transform: scale(1) translateY(0); }
+
+  .modal-title {
+    font-family: 'Lexend', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: var(--gray-800);
+  }
+
+  .form-group {
+    margin-bottom: 14px;
+  }
+
+  .form-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--gray-600);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 2px solid var(--gray-200);
+    border-radius: 10px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    color: var(--gray-800);
+  }
+
+  .form-input:focus { border-color: var(--green); }
+
+  .modal-footer {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .modal-footer .btn { flex: 1; padding: 11px; font-size: 14px; }
+
+  .btn-cancel {
+    background: var(--gray-100);
+    color: var(--gray-700);
+    border: none;
+  }
+  .btn-cancel:hover { background: var(--gray-200); }
+
+  /* Color picker in settings */
+  .theme-colors {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .theme-swatch {
+    height: 36px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: all 0.15s;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .theme-swatch:hover { transform: scale(1.08); }
+
+  .theme-swatch.active {
+    border-color: var(--gray-800);
+    box-shadow: 0 0 0 2px white, 0 0 0 4px var(--gray-800);
+  }
+
+  .theme-swatch .check {
+    color: white;
+    font-size: 14px;
+    opacity: 0;
+    font-weight: 700;
+  }
+
+  .theme-swatch.active .check { opacity: 1; }
+
+  /* Responsive */
+  @media (max-width: 1200px) {
+    .top-row { grid-template-columns: 1fr 1fr; }
+    .habits-card { grid-column: 1 / -1; }
+    .days-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  @media (max-width: 768px) {
+    .top-row { grid-template-columns: 1fr; }
+    .days-grid { grid-template-columns: repeat(2, 1fr); }
+    .days-grid { grid-template-columns: repeat(2, 1fr); }
+    .header { padding: 12px 16px; }
+    .main { padding: 16px 12px; }
+  }
+
+  /* Today highlight */
+  .is-today .day-card {
+    ring: 2px solid var(--green);
+    box-shadow: 0 0 0 2px var(--green), var(--shadow-lg);
+  }
+
+  .today-badge {
+    display: inline-block;
+    background: white;
+    color: currentColor;
+    font-size: 9px;
+    font-weight: 800;
+    padding: 1px 6px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+    opacity: 0.9;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 16px 8px;
+    color: var(--gray-300);
+    font-size: 11px;
+    font-style: italic;
+  }
+
+  /* ── NOTES SECTION ── */
+  .notes-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 4px;
+  }
+
+  .notes-main {
+    background: white;
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+  }
+
+  .notes-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .notes-title {
+    font-family: 'Lexend', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--gray-600);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .notes-title::before {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 16px;
+    background: var(--yellow);
+    border-radius: 2px;
+  }
+
+  .notes-week-label {
+    font-size: 11px;
+    color: var(--gray-600);
+    background: var(--gray-100);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+
+  .week-note-textarea {
+    width: 100%;
+    min-height: 120px;
+    border: 2px solid var(--gray-200);
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 13px;
+    color: var(--gray-800);
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.2s;
+    background: var(--gray-50);
+    line-height: 1.6;
+  }
+
+  .week-note-textarea:focus {
+    border-color: var(--yellow);
+    background: white;
+  }
+
+  .week-note-textarea::placeholder {
+    color: var(--gray-300);
+    font-style: italic;
+  }
+
+  /* Sticky notes */
+  .sticky-notes-panel {
+    background: white;
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+  }
+
+  .sticky-notes-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .sticky-note {
+    border-radius: 12px;
+    padding: 12px;
+    min-height: 90px;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .sticky-note:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  }
+
+  .sticky-note.yellow { background: #fef9c3; }
+  .sticky-note.green  { background: #dcfce7; }
+  .sticky-note.blue   { background: #dbeafe; }
+  .sticky-note.pink   { background: #fce7f3; }
+  .sticky-note.purple { background: #f3e8ff; }
+  .sticky-note.orange { background: #ffedd5; }
+
+  .sticky-note-input {
+    width: 100%;
+    height: 100%;
+    min-height: 66px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 12px;
+    color: var(--gray-800);
+    resize: none;
+    line-height: 1.5;
+  }
+
+  .sticky-note-input::placeholder { color: rgba(0,0,0,0.25); font-style: italic; }
+
+  .sticky-note-del {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.1);
+    border: none;
+    cursor: pointer;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.15s;
+    color: var(--gray-700);
+    line-height: 1;
+  }
+
+  .sticky-note:hover .sticky-note-del { opacity: 1; }
+  .sticky-note-del:hover { background: rgba(0,0,0,0.2); }
+
+  .add-sticky-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .add-sticky-label {
+    font-size: 11px;
+    color: var(--gray-600);
+    font-weight: 600;
+  }
+
+  .color-picker {
+    display: flex;
+    gap: 5px;
+  }
+
+  .color-dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.15s;
+  }
+
+  .color-dot:hover, .color-dot.active {
+    border-color: var(--gray-700);
+    transform: scale(1.15);
+  }
+
+  .color-dot.yellow { background: #fef9c3; }
+  .color-dot.green  { background: #dcfce7; }
+  .color-dot.blue   { background: #dbeafe; }
+  .color-dot.pink   { background: #fce7f3; }
+  .color-dot.purple { background: #f3e8ff; }
+  .color-dot.orange { background: #ffedd5; }
+
+  .btn-add-sticky {
+    margin-left: auto;
+    padding: 6px 14px;
+    background: var(--yellow);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn-add-sticky:hover { background: #ca8a04; }
+
+  @media (max-width: 1200px) {
+    .notes-section { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="logo">
+    <div class="logo-text-wrap">
+      <div class="logo-peki">PEKi<span class="logo-dot"></span></div>
+      <div class="logo-tagline">Be kind every day</div>
+    </div>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-outline" onclick="openSettings()">⚙ Cài đặt</button>
+    <button class="btn btn-primary" onclick="saveData()">💾 Lưu</button>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- WEEK NAV -->
+  <div class="week-nav">
+    <button class="week-nav-btn" onclick="prevWeek()">‹</button>
+    <div class="week-label" id="weekLabel">Đang tải...</div>
+    <button class="week-nav-btn" onclick="nextWeek()">›</button>
+    <button class="today-btn" onclick="goToToday()">Hôm nay</button>
+  </div>
+
+  <!-- TOP ROW -->
+  <div class="top-row">
+
+    <!-- PROGRESS CHART -->
+    <div class="card chart-card">
+      <div class="chart-header">
+        <div class="card-title" style="margin-bottom:0">Bảng Tiến Độ Hoàn Thành</div>
+        <div class="legend">
+          <div class="legend-item">
+            <div class="legend-dot" style="background:var(--gray-200)"></div>
+            Chưa hoàn thành
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:var(--green)"></div>
+            Hoàn thành
+          </div>
+        </div>
+      </div>
+      <div class="chart-area" id="chartArea"></div>
+      <div class="total-display">
+        <div class="total-pct" id="totalPct">0%</div>
+        <div class="total-sub" id="totalSub">0/0 Việc đã hoàn thành</div>
+      </div>
+    </div>
+
+    <!-- HABITS CARD -->
+    <div class="card habits-card">
+      <div class="card-title">Bảng Thói Quen Mỗi Ngày</div>
+      <div class="habits-grid">
+        <table class="habits-table">
+          <thead>
+            <tr>
+              <th>Thói quen</th>
+              <th>T2</th><th>T3</th><th>T4</th><th>T5</th><th>T6</th><th>T7</th><th>CN</th>
+              <th>Hoàn thành</th>
+            </tr>
+          </thead>
+          <tbody id="habitsBody"></tbody>
+        </table>
+      </div>
+      <div class="add-habit-row">
+        <input class="add-habit-input" id="newHabitInput" placeholder="Thêm thói quen mới..." onkeydown="if(event.key==='Enter')addHabit()">
+        <button class="btn-add-habit" onclick="addHabit()">+</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- DAYS GRID -->
+  <div class="days-grid" id="daysGrid"></div>
+
+  <!-- NOTES SECTION -->
+  <div class="notes-section">
+
+    <!-- GHI CHÚ TUẦN -->
+    <div class="notes-main">
+      <div class="notes-header">
+        <div class="notes-title">📝 Ghi Chú Tuần</div>
+        <div class="notes-week-label" id="notesWeekLabel">—</div>
+      </div>
+      <textarea
+        class="week-note-textarea"
+        id="weekNoteArea"
+        placeholder="Ghi chú, suy nghĩ, kế hoạch, ý tưởng cho tuần này..."
+        oninput="saveWeekNote()"
+      ></textarea>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
+        <span style="font-size:11px;color:var(--gray-300);font-style:italic" id="noteCharCount">0 ký tự</span>
+        <div style="display:flex;gap:6px;">
+          <button class="btn btn-outline" style="font-size:11px;padding:5px 12px;" onclick="clearWeekNote()">🗑 Xóa</button>
+          <button class="btn btn-primary" style="font-size:11px;padding:5px 12px;" onclick="copyNote()">📋 Copy</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STICKY NOTES -->
+    <div class="sticky-notes-panel">
+      <div class="notes-header">
+        <div class="notes-title">🗒️ Ghi Chú Nhanh</div>
+        <span style="font-size:11px;color:var(--gray-300);" id="stickyCount">0 ghi chú</span>
+      </div>
+      <div class="sticky-notes-grid" id="stickyGrid"></div>
+      <div class="add-sticky-row">
+        <span class="add-sticky-label">Màu:</span>
+        <div class="color-picker">
+          <div class="color-dot yellow active" data-color="yellow" onclick="selectColor(this)"></div>
+          <div class="color-dot green"  data-color="green"  onclick="selectColor(this)"></div>
+          <div class="color-dot blue"   data-color="blue"   onclick="selectColor(this)"></div>
+          <div class="color-dot pink"   data-color="pink"   onclick="selectColor(this)"></div>
+          <div class="color-dot purple" data-color="purple" onclick="selectColor(this)"></div>
+          <div class="color-dot orange" data-color="orange" onclick="selectColor(this)"></div>
+        </div>
+        <button class="btn-add-sticky" onclick="addSticky()">+ Thêm</button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- HIDDEN COMPAT FIELDS -->
+<span id="startDateDisplay" style="display:none"></span>
+<span id="overallPct" style="display:none"></span>
+<span id="overallCount" style="display:none"></span>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- SETTINGS MODAL -->
+<div class="modal-overlay" id="settingsModal" onclick="if(event.target===this)closeSettings()">
+  <div class="modal">
+    <div class="modal-title">⚙ Cài đặt</div>
+    <div class="form-group">
+      <label class="form-label">Tên kế hoạch</label>
+      <input class="form-input" id="settingName" placeholder="Weekly Planner">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Ngày bắt đầu tuần</label>
+      <input class="form-input" type="date" id="settingStartDate">
+    </div>
+    <div class="form-group">
+      <label class="form-label">🎨 Màu chủ đạo</label>
+      <div class="theme-colors" id="themeColors">
+        <div class="theme-swatch active" data-color="green" style="background:linear-gradient(135deg,#1a9e3f,#2dc653)" onclick="selectTheme(this)" title="Xanh lá"><span class="check">✓</span></div>
+        <div class="theme-swatch" data-color="blue" style="background:linear-gradient(135deg,#1d4ed8,#3b82f6)" onclick="selectTheme(this)" title="Xanh dương"><span class="check">✓</span></div>
+        <div class="theme-swatch" data-color="purple" style="background:linear-gradient(135deg,#7e22ce,#a855f7)" onclick="selectTheme(this)" title="Tím"><span class="check">✓</span></div>
+        <div class="theme-swatch" data-color="orange" style="background:linear-gradient(135deg,#c2410c,#f97316)" onclick="selectTheme(this)" title="Cam"><span class="check">✓</span></div>
+        <div class="theme-swatch" data-color="pink" style="background:linear-gradient(135deg,#be185d,#ec4899)" onclick="selectTheme(this)" title="Hồng"><span class="check">✓</span></div>
+        <div class="theme-swatch" data-color="teal" style="background:linear-gradient(135deg,#0f766e,#14b8a6)" onclick="selectTheme(this)" title="Xanh ngọc"><span class="check">✓</span></div>
+        <div class="theme-swatch" data-color="red" style="background:linear-gradient(135deg,#b91c1c,#ef4444)" onclick="selectTheme(this)" title="Đỏ"><span class="check">✓</span></div>
+        <div class="theme-swatch" data-color="indigo" style="background:linear-gradient(135deg,#3730a3,#6366f1)" onclick="selectTheme(this)" title="Indigo"><span class="check">✓</span></div>
+        <div class="theme-swatch" data-color="rose" style="background:linear-gradient(135deg,#9f1239,#f43f5e)" onclick="selectTheme(this)" title="Hồng đậm"><span class="check">✓</span></div>
+        <div class="theme-swatch" data-color="amber" style="background:linear-gradient(135deg,#b45309,#f59e0b)" onclick="selectTheme(this)" title="Vàng"><span class="check">✓</span></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-cancel" onclick="closeSettings()">Hủy</button>
+      <button class="btn btn-primary" onclick="applySettings()">Áp dụng</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── STATE ───────────────────────────────────────────────────────────────────
+const DAY_NAMES = ['Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy','Chủ Nhật'];
+const DAY_SHORT = ['T2','T3','T4','T5','T6','T7','CN'];
+const DAY_COLORS = ['#3b82f6','#2dc653','#a855f7','#3b82f6','#eab308','#f97316','#ec4899'];
+
+let currentWeekStart = getMonday(new Date());
+let data = loadData();
+
+function loadData() {
+  try {
+    const stored = localStorage.getItem('weekplanner');
+    if (stored) return JSON.parse(stored);
+  } catch(e) {}
+  return { weeks: {}, habits: getDefaultHabits(), settings: { name: 'Weekly Planner' } };
+}
+
+function getDefaultHabits() {
+  return [
+    'Đọc sách', 'Lập kế hoạch cho ngày hôm sau',
+    'Dậy sớm trước 7h', 'Uống đủ nước', 'Viết nhật ký'
+  ];
+}
+
+function saveData() {
+  try {
+    localStorage.setItem('weekplanner', JSON.stringify(data));
+    showToast('✅ Đã lưu thành công!');
+  } catch(e) {
+    showToast('❌ Lỗi lưu dữ liệu');
+  }
+}
+
+// ─── DATE UTILS ──────────────────────────────────────────────────────────────
+function getMonday(d) {
+  const dt = new Date(d);
+  const day = dt.getDay();
+  const diff = day === 0 ? -6 : 1 - day;
+  dt.setDate(dt.getDate() + diff);
+  dt.setHours(0,0,0,0);
+  return dt;
+}
+
+function formatDate(d) {
+  return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+}
+
+function dateKey(d) {
+  return d.toISOString().slice(0,10);
+}
+
+function getWeekKey(d) {
+  return dateKey(d);
+}
+
+function isToday(d) {
+  const today = new Date();
+  return d.getDate() === today.getDate() &&
+         d.getMonth() === today.getMonth() &&
+         d.getFullYear() === today.getFullYear();
+}
+
+// ─── WEEK NAVIGATION ─────────────────────────────────────────────────────────
+function prevWeek() {
+  currentWeekStart = new Date(currentWeekStart);
+  currentWeekStart.setDate(currentWeekStart.getDate() - 7);
+  render();
+}
+
+function nextWeek() {
+  currentWeekStart = new Date(currentWeekStart);
+  currentWeekStart.setDate(currentWeekStart.getDate() + 7);
+  render();
+}
+
+function goToToday() {
+  currentWeekStart = getMonday(new Date());
+  render();
+  showToast('📅 Đã về tuần hiện tại');
+}
+
+function getWeekDays() {
+  const days = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(currentWeekStart);
+    d.setDate(d.getDate() + i);
+    days.push(d);
+  }
+  return days;
+}
+
+// ─── WEEK DATA ────────────────────────────────────────────────────────────────
+function getWeekData() {
+  const wk = getWeekKey(currentWeekStart);
+  if (!data.weeks[wk]) {
+    data.weeks[wk] = { days: {} };
+  }
+  return data.weeks[wk];
+}
+
+function getDayData(dayDate) {
+  const wk = getWeekData();
+  const dk = dateKey(dayDate);
+  if (!wk.days[dk]) wk.days[dk] = { tasks: [], habits: {} };
+  return wk.days[dk];
+}
+
+// ─── TASKS ────────────────────────────────────────────────────────────────────
+function addTask(dayDate, inputEl) {
+  const text = inputEl.value.trim();
+  if (!text) return;
+  const dd = getDayData(dayDate);
+  dd.tasks.push({ id: Date.now(), text, done: false });
+  inputEl.value = '';
+  saveData();
+  renderDays();
+  renderChart();
+}
+
+function toggleTask(dayDate, taskId) {
+  const dd = getDayData(dayDate);
+  const task = dd.tasks.find(t => t.id === taskId);
+  if (task) task.done = !task.done;
+  saveData();
+  renderDays();
+  renderChart();
+}
+
+function deleteTask(dayDate, taskId) {
+  const dd = getDayData(dayDate);
+  dd.tasks = dd.tasks.filter(t => t.id !== taskId);
+  saveData();
+  renderDays();
+  renderChart();
+}
+
+// ─── HABITS ──────────────────────────────────────────────────────────────────
+function addHabit() {
+  const input = document.getElementById('newHabitInput');
+  const text = input.value.trim();
+  if (!text) return;
+  if (!data.habits.includes(text)) {
+    data.habits.push(text);
+    saveData();
+    renderHabits();
+    input.value = '';
+    showToast('✅ Đã thêm thói quen!');
+  } else {
+    showToast('⚠ Thói quen đã tồn tại!');
+  }
+}
+
+function removeHabit(idx) {
+  data.habits.splice(idx, 1);
+  saveData();
+  renderHabits();
+}
+
+function toggleHabit(habit, dayDate) {
+  const dd = getDayData(dayDate);
+  if (!dd.habits) dd.habits = {};
+  dd.habits[habit] = !dd.habits[habit];
+  saveData();
+  renderHabits();
+}
+
+// ─── RENDER HABITS ────────────────────────────────────────────────────────────
+function renderHabits() {
+  const tbody = document.getElementById('habitsBody');
+  const days = getWeekDays();
+  tbody.innerHTML = '';
+
+  data.habits.forEach((habit, hi) => {
+    const tr = document.createElement('tr');
+    let doneCount = 0;
+
+    let html = `<td>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span>${habit}</span>
+        <button onclick="removeHabit(${hi})" style="border:none;background:none;cursor:pointer;color:#ef4444;font-size:12px;opacity:0.5;padding:0;" title="Xóa">✕</button>
+      </div>
+    </td>`;
+
+    days.forEach((d, di) => {
+      const dd = getDayData(d);
+      const checked = dd.habits && dd.habits[habit];
+      if (checked) doneCount++;
+      html += `<td>
+        <input type="checkbox" class="habit-check" ${checked ? 'checked' : ''}
+          onchange="toggleHabit('${habit.replace(/'/g,"\\'")}', new Date('${d.toISOString()}'))">
+      </td>`;
+    });
+
+    const pct = Math.round(doneCount / 7 * 100);
+    html += `<td>
+      <div style="display:flex;align-items:center;gap:6px;justify-content:flex-end;">
+        <div class="habit-pct-bar">
+          <div class="habit-pct-fill" style="width:${pct}%"></div>
+        </div>
+        <div class="habit-pct-text">${pct}%</div>
+      </div>
+    </td>`;
+
+    tr.innerHTML = html;
+    tbody.appendChild(tr);
+  });
+
+  if (data.habits.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="9" class="empty-state">Chưa có thói quen nào. Thêm ngay bên dưới!</td></tr>`;
+  }
+}
+
+// ─── RENDER DAYS ─────────────────────────────────────────────────────────────
+function renderDays() {
+  const grid = document.getElementById('daysGrid');
+  const days = getWeekDays();
+  grid.innerHTML = '';
+
+  days.forEach((d, di) => {
+    const dd = getDayData(d);
+    const tasks = dd.tasks || [];
+    const done = tasks.filter(t => t.done).length;
+    const total = tasks.length;
+    const pct = total > 0 ? Math.round(done / total * 100) : 0;
+    const color = DAY_COLORS[di];
+
+    const todayClass = isToday(d) ? 'is-today' : '';
+    const circumference = 175.93;
+    const offset = circumference - (pct / 100) * circumference;
+
+    const wrapper = document.createElement('div');
+    wrapper.className = todayClass;
+
+    let taskHTML = '';
+    if (tasks.length === 0) {
+      taskHTML = `<div class="empty-state">Chưa có công việc</div>`;
+    } else {
+      tasks.forEach(task => {
+        taskHTML += `
+        <div class="task-item ${task.done ? 'done' : ''}" style="--task-color:${color}">
+          <input type="checkbox" class="task-check" ${task.done ? 'checked' : ''}
+            style="--c:${color}"
+            onchange="toggleTask(new Date('${d.toISOString()}'), ${task.id})">
+          <span class="task-text">${escapeHtml(task.text)}</span>
+          <button class="task-delete" onclick="deleteTask(new Date('${d.toISOString()}'), ${task.id})">✕</button>
+        </div>`;
+      });
+    }
+
+    const todayBadge = isToday(d) ? `<div class="today-badge">Hôm nay</div>` : '';
+
+    wrapper.innerHTML = `
+    <div class="day-card day-${di}">
+      <div class="day-header">
+        <div class="day-name">${DAY_NAMES[di]}</div>
+        <div class="day-date">${formatDate(d)}</div>
+        ${todayBadge}
+      </div>
+      <div class="day-progress-wrap">
+        <div class="circular-progress">
+          <svg width="72" height="72" viewBox="0 0 72 72">
+            <circle class="bg-circle" cx="36" cy="36" r="28"/>
+            <circle class="fill-circle" cx="36" cy="36" r="28"
+              style="stroke-dashoffset:${offset};stroke:${color}"/>
+          </svg>
+          <div class="circular-text" style="color:${color}">${pct}%</div>
+        </div>
+      </div>
+      <div class="day-progress-label">Tiến độ hoàn thành</div>
+      <div class="task-list-header" style="color:${color}">Công việc</div>
+      <div class="task-list">${taskHTML}</div>
+      <div class="add-task-row">
+        <input class="add-task-input" placeholder="Thêm công việc..."
+          id="addTask_${di}"
+          onkeydown="if(event.key==='Enter')addTask(new Date('${d.toISOString()}'), this)">
+        <button class="btn-add-task" style="background:${color}"
+          onclick="addTask(new Date('${d.toISOString()}'), document.getElementById('addTask_${di}'))">+</button>
+      </div>
+    </div>`;
+
+    grid.appendChild(wrapper);
+  });
+}
+
+// ─── RENDER CHART ─────────────────────────────────────────────────────────────
+function renderChart() {
+  const days = getWeekDays();
+  const chartArea = document.getElementById('chartArea');
+  chartArea.innerHTML = '';
+
+  let totalDone = 0, totalAll = 0;
+
+  days.forEach((d, di) => {
+    const dd = getDayData(d);
+    const tasks = dd.tasks || [];
+    const done = tasks.filter(t => t.done).length;
+    const total = tasks.length;
+    totalDone += done;
+    totalAll += total;
+
+    const maxH = 100;
+    const doneH = total > 0 ? Math.max(4, Math.round((done / total) * maxH)) : 0;
+    const incompleteH = total > 0 ? Math.max(0, Math.round(((total - done) / total) * maxH)) : 0;
+
+    const col = document.createElement('div');
+    col.className = 'chart-col';
+    col.innerHTML = `
+      <div class="bar-group">
+        ${total > 0 ? `<div class="bar bar-complete" style="height:${doneH}px;background:${DAY_COLORS[di]}" title="${done} hoàn thành"></div>` : ''}
+        ${total - done > 0 ? `<div class="bar bar-incomplete" style="height:${incompleteH}px" title="${total-done} chưa xong"></div>` : ''}
+        ${total === 0 ? `<div class="bar bar-incomplete" style="height:8px"></div>` : ''}
+      </div>
+      <div class="bar-label">${DAY_SHORT[di]}</div>`;
+    chartArea.appendChild(col);
+  });
+
+  const pct = totalAll > 0 ? Math.round(totalDone / totalAll * 100) : 0;
+  document.getElementById('totalPct').textContent = pct + '%';
+  document.getElementById('totalSub').textContent = `${totalDone}/${totalAll} Việc đã hoàn thành`;
+  document.getElementById('overallPct').textContent = pct + '%';
+  document.getElementById('overallCount').textContent = `(${totalDone}/${totalAll} việc)`;
+}
+
+// ─── RENDER HEADER ────────────────────────────────────────────────────────────
+function renderHeader() {
+  const days = getWeekDays();
+  const start = days[0];
+  const end = days[6];
+  document.getElementById('weekLabel').textContent =
+    `${formatDate(start)} – ${formatDate(end)}`;
+  document.getElementById('startDateDisplay').textContent = formatDate(start);
+}
+
+// ─── SETTINGS ─────────────────────────────────────────────────────────────────
+function openSettings() {
+  document.getElementById('settingName').value = data.settings.name || '';
+  const days = getWeekDays();
+  document.getElementById('settingStartDate').value = dateKey(days[0]);
+  document.getElementById('settingsModal').classList.add('open');
+}
+
+function closeSettings() {
+  document.getElementById('settingsModal').classList.remove('open');
+}
+
+// ─── THEME COLORS ────────────────────────────────────────────────────────────
+const THEMES = {
+  green:  { main: '#2dc653', dark: '#1a9e3f', light: '#e8f9ed', grad: 'linear-gradient(135deg,#1a9e3f,#2dc653)', shadow: 'rgba(45,198,83,0.3)' },
+  blue:   { main: '#3b82f6', dark: '#1d4ed8', light: '#eff6ff', grad: 'linear-gradient(135deg,#1d4ed8,#3b82f6)', shadow: 'rgba(59,130,246,0.3)' },
+  purple: { main: '#a855f7', dark: '#7e22ce', light: '#faf5ff', grad: 'linear-gradient(135deg,#7e22ce,#a855f7)', shadow: 'rgba(168,85,247,0.3)' },
+  orange: { main: '#f97316', dark: '#c2410c', light: '#fff7ed', grad: 'linear-gradient(135deg,#c2410c,#f97316)', shadow: 'rgba(249,115,22,0.3)' },
+  pink:   { main: '#ec4899', dark: '#be185d', light: '#fdf2f8', grad: 'linear-gradient(135deg,#be185d,#ec4899)', shadow: 'rgba(236,72,153,0.3)' },
+  teal:   { main: '#14b8a6', dark: '#0f766e', light: '#f0fdfa', grad: 'linear-gradient(135deg,#0f766e,#14b8a6)', shadow: 'rgba(20,184,166,0.3)' },
+  red:    { main: '#ef4444', dark: '#b91c1c', light: '#fef2f2', grad: 'linear-gradient(135deg,#b91c1c,#ef4444)', shadow: 'rgba(239,68,68,0.3)' },
+  indigo: { main: '#6366f1', dark: '#3730a3', light: '#eef2ff', grad: 'linear-gradient(135deg,#3730a3,#6366f1)', shadow: 'rgba(99,102,241,0.3)' },
+  rose:   { main: '#f43f5e', dark: '#9f1239', light: '#fff1f2', grad: 'linear-gradient(135deg,#9f1239,#f43f5e)', shadow: 'rgba(244,63,94,0.3)' },
+  amber:  { main: '#f59e0b', dark: '#b45309', light: '#fffbeb', grad: 'linear-gradient(135deg,#b45309,#f59e0b)', shadow: 'rgba(245,158,11,0.3)' },
+};
+
+let currentTheme = 'green';
+
+function selectTheme(el) {
+  document.querySelectorAll('.theme-swatch').forEach(s => s.classList.remove('active'));
+  el.classList.add('active');
+  currentTheme = el.dataset.color;
+}
+
+function applyTheme(name) {
+  const t = THEMES[name] || THEMES.green;
+  const r = document.documentElement.style;
+  r.setProperty('--green',       t.main);
+  r.setProperty('--green-dark',  t.dark);
+  r.setProperty('--green-light', t.light);
+  // Header gradient
+  const hdr = document.querySelector('.header');
+  if (hdr) hdr.style.background = 'white';
+  // Btn-primary color
+  document.querySelectorAll('.btn-primary').forEach(b => {
+    b.style.background = t.main;
+  });
+  // Week nav today btn
+  document.querySelectorAll('.today-btn').forEach(b => {
+    b.style.borderColor = t.main;
+    b.style.color = t.dark;
+    b.style.background = t.light;
+  });
+}
+
+function openSettings() {
+  document.getElementById('settingName').value = data.settings.name || '';
+  const days = getWeekDays();
+  document.getElementById('settingStartDate').value = dateKey(days[0]);
+  // Mark active theme
+  currentTheme = data.settings.theme || 'green';
+  document.querySelectorAll('.theme-swatch').forEach(s => {
+    s.classList.toggle('active', s.dataset.color === currentTheme);
+  });
+  document.getElementById('settingsModal').classList.add('open');
+}
+
+function applySettings() {
+  data.settings.name = document.getElementById('settingName').value || 'Weekly Planner';
+  const dateVal = document.getElementById('settingStartDate').value;
+  if (dateVal) {
+    currentWeekStart = getMonday(new Date(dateVal));
+  }
+  data.settings.theme = currentTheme;
+  applyTheme(currentTheme);
+  saveData();
+  closeSettings();
+  render();
+  showToast('✅ Đã cập nhật cài đặt!');
+}
+
+// ─── TOAST ────────────────────────────────────────────────────────────────────
+let toastTimer = null;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ─── UTILS ────────────────────────────────────────────────────────────────────
+function escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ─── NOTES ────────────────────────────────────────────────────────────────────
+let selectedStickyColor = 'yellow';
+
+function getWeekNoteKey() {
+  return 'note_' + dateKey(currentWeekStart);
+}
+
+function loadWeekNote() {
+  const key = getWeekNoteKey();
+  const wk = getWeekData();
+  const note = (wk.note) || '';
+  const textarea = document.getElementById('weekNoteArea');
+  if (textarea) {
+    textarea.value = note;
+    updateNoteCount();
+  }
+  document.getElementById('notesWeekLabel').textContent =
+    formatDate(getWeekDays()[0]) + ' – ' + formatDate(getWeekDays()[6]);
+}
+
+function saveWeekNote() {
+  const wk = getWeekData();
+  wk.note = document.getElementById('weekNoteArea').value;
+  updateNoteCount();
+  try { localStorage.setItem('weekplanner', JSON.stringify(data)); } catch(e) {}
+}
+
+function updateNoteCount() {
+  const val = document.getElementById('weekNoteArea').value;
+  document.getElementById('noteCharCount').textContent = val.length + ' ký tự';
+}
+
+function clearWeekNote() {
+  if (!confirm('Xóa ghi chú tuần này?')) return;
+  document.getElementById('weekNoteArea').value = '';
+  saveWeekNote();
+  showToast('🗑 Đã xóa ghi chú!');
+}
+
+function copyNote() {
+  const text = document.getElementById('weekNoteArea').value;
+  if (!text) { showToast('⚠ Chưa có ghi chú!'); return; }
+  navigator.clipboard.writeText(text).then(() => showToast('📋 Đã copy!'));
+}
+
+// ── STICKY NOTES ──
+function selectColor(el) {
+  document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
+  el.classList.add('active');
+  selectedStickyColor = el.dataset.color;
+}
+
+function getStickyData() {
+  if (!data.stickies) data.stickies = [];
+  return data.stickies;
+}
+
+function addSticky() {
+  const stickies = getStickyData();
+  stickies.push({ id: Date.now(), color: selectedStickyColor, text: '' });
+  saveData();
+  renderStickies();
+}
+
+function deleteSticky(id) {
+  data.stickies = (data.stickies || []).filter(s => s.id !== id);
+  saveData();
+  renderStickies();
+}
+
+function updateSticky(id, text) {
+  const s = (data.stickies || []).find(s => s.id === id);
+  if (s) s.text = text;
+  try { localStorage.setItem('weekplanner', JSON.stringify(data)); } catch(e) {}
+}
+
+function renderStickies() {
+  const grid = document.getElementById('stickyGrid');
+  const stickies = getStickyData();
+  document.getElementById('stickyCount').textContent = stickies.length + ' ghi chú';
+
+  if (!stickies.length) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:24px;color:var(--gray-300);font-size:12px;font-style:italic;">
+      Nhấn "+ Thêm" để tạo ghi chú nhanh 📌
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = stickies.map(s => `
+    <div class="sticky-note ${s.color}">
+      <button class="sticky-note-del" onclick="deleteSticky(${s.id})">✕</button>
+      <textarea class="sticky-note-input"
+        placeholder="Ghi chú nhanh..."
+        oninput="updateSticky(${s.id}, this.value)"
+      >${escapeHtml(s.text)}</textarea>
+    </div>
+  `).join('');
+}
+
+// ─── MAIN RENDER ─────────────────────────────────────────────────────────────
+function render() {
+  renderHeader();
+  renderDays();
+  renderChart();
+  renderHabits();
+  loadWeekNote();
+  renderStickies();
+}
+
+// ─── AUTO SAVE ────────────────────────────────────────────────────────────────
+setInterval(() => { saveData(); }, 30000);
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+// Apply saved theme on load
+applyTheme(data.settings && data.settings.theme ? data.settings.theme : 'green');
+render();
+</script>
+</body>
+</html>
